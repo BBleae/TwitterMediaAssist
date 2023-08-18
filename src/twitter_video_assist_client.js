@@ -1,24 +1,29 @@
-const downloadButton = '<div class="ProfileTweet-action tva_download_action"><button class="ProfileTweet-actionButton u-textUserColorHover js-actionButton tva_js_download" type="button"><div class="IconContainer js-tooltip" data-original-title="Video Download"><span class="Icon Icon--medium tva_download_icon"></span><span class="u-hiddenVisually"></span></div></button></div>'
+const downloadButton =
+    '<div class="ProfileTweet-action tva_download_action"><button class="ProfileTweet-actionButton u-textUserColorHover js-actionButton tva_js_download" type="button"><div class="IconContainer js-tooltip" data-original-title="Video Download"><span class="Icon Icon--medium tva_download_icon"></span><span class="u-hiddenVisually"></span></div></button></div>'
 const progressPopup = '<div class="stream-item tva_ext_container tva_hide" aria-live="polite"><div class="tva_ext_spinner"><div class="tva_spinner"></div></div><div class="tva_ext_text_box"><p class="tva_ext_text">GIF Converting...</p></div></div>'
-const downloadIcon = '<g xmlns="http://www.w3.org/2000/svg"><path d="M 21 15 L 20.98 18.51 C 20.98 19.89 19.86 21 18.48 21 L 5.5 21 C 4.11 21 3 19.88 3 18.5 L 3 15 L 5 15 L 5 18.5 C 5 18.78 5.22 19 5.5 19 L 18.48 19 C 18.76 19 18.98 18.78 18.98 18.5 L 19 15 L 21 15 Z M 12 16 L 17.7 10.3 L 16.29 8.88 L 13 12.18 L 13 2.59 L 11 2.59 L 11 12.18 L 7.7 8.88 L 6.29 10.3 L 12 16 Z" style=""/></g>'
+const downloadIcon =
+    '<g xmlns="http://www.w3.org/2000/svg"><path d="M 21 15 L 20.98 18.51 C 20.98 19.89 19.86 21 18.48 21 L 5.5 21 C 4.11 21 3 19.88 3 18.5 L 3 15 L 5 15 L 5 18.5 C 5 18.78 5.22 19 5.5 19 L 18.48 19 C 18.76 19 18.98 18.78 18.98 18.5 L 19 15 L 21 15 Z M 12 16 L 17.7 10.3 L 16.29 8.88 L 13 12.18 L 13 2.59 L 11 2.59 L 11 12.18 L 7.7 8.88 L 6.29 10.3 L 12 16 Z" style=""/></g>'
 const reactProgressPopup = '<div class="tva-react-spinner-wrapper"><div class="tva_spinner tva_spinner_old"></div><span class="css-901oao css-16my406 r-1qd0xha r-ad9z0x r-bcqeeo r-qvutc0">GIFing...</span></div>'
 
 const modalCalss = 'div[aria-modal="true"]'
 
 $(document).ready(initialize)
 $(document).on('DOMNodeInserted', injectAdditionalDownloadButtons)
-$(document).on({
-    mouseenter: function (e) {
-        $(e.currentTarget).find('svg').prev().addClass('r-zv2cs0')
-        $(e.currentTarget).find('svg').prev().parent().parent().removeClass('r-111h2gw')
-        $(e.currentTarget).find('svg').prev().parent().parent().addClass('r-13gxpu9')
+$(document).on(
+    {
+        mouseenter: function (e) {
+            $(e.currentTarget).find('svg').prev().addClass('r-zv2cs0')
+            $(e.currentTarget).find('svg').prev().parent().parent().removeClass('r-111h2gw')
+            $(e.currentTarget).find('svg').prev().parent().parent().addClass('r-13gxpu9')
+        },
+        mouseleave: function (e) {
+            $(e.currentTarget).find('svg').prev().removeClass('r-zv2cs0')
+            $(e.currentTarget).find('svg').prev().parent().parent().addClass('r-111h2gw')
+            $(e.currentTarget).find('svg').prev().parent().parent().removeClass('r-13gxpu9')
+        },
     },
-    mouseleave: function (e) {
-        $(e.currentTarget).find('svg').prev().removeClass('r-zv2cs0')
-        $(e.currentTarget).find('svg').prev().parent().parent().addClass('r-111h2gw')
-        $(e.currentTarget).find('svg').prev().parent().parent().removeClass('r-13gxpu9')
-    }
-}, ".tva-download-icon")
+    '.tva-download-icon',
+)
 
 let hideViewCount = false
 browser.runtime.onMessage.addListener(processRequest)
@@ -27,11 +32,11 @@ browser.storage.sync.get({ hideViewCount: true }).then((items) => {
 })
 
 function initialize() {
-    $(".tweet").each(function () {
+    $('.tweet').each(function () {
         injectDownloadButton(this)
     })
-    $("body").append(progressPopup)
-    $(".tva_ext_container").css("z-index", getMaximumZindex() + 1)
+    $('body').append(progressPopup)
+    $('.tva_ext_container').css('z-index', getMaximumZindex() + 1)
 }
 
 function injectAdditionalDownloadButtons(event) {
@@ -45,9 +50,11 @@ function injectAdditionalDownloadButtons(event) {
         analysisDom(event.target)
     }
 
-    $(event.target).find('.AdaptiveMedia-video').each(function () {
-        injectDownloadButton(this)
-    })
+    $(event.target)
+        .find('.AdaptiveMedia-video')
+        .each(function () {
+            injectDownloadButton(this)
+        })
 }
 
 function hasMedia(element) {
@@ -140,15 +147,15 @@ function injectDownloadButton(target) {
 
     var favIcon = $(tweet).find('div.ProfileTweet-action--favorite')[0]
     $(favIcon).after(downloadButton)
-    $(favIcon).siblings(".tva_download_action").find('button.tva_js_download').click('.tweet', downloadMediaObject)
+    $(favIcon).siblings('.tva_download_action').find('button.tva_js_download').click('.tweet', downloadMediaObject)
 }
 
 function indexOfImage(selector) {
     if (selector !== modalCalss) {
         return
     }
-    const splited = window.location.pathname.split('/')
-    return Number(splited[splited.length - 1]) - 1
+    const splitted = window.location.pathname.split('/')
+    return parseInt(splitted.pop()) - 1
 }
 
 function downloadMediaObject(event) {
@@ -176,76 +183,45 @@ async function downloadVideoObject(tweet, tweetSelector, videoTag) {
 
     let url = null
     if (videoSource.includes('blob')) {
-        url = await extractGraphQlMp4Video(getTweetId(tweet, tweetSelector), getCookie("ct0"))
+        url = await extractGraphQlMp4Video(getTweetId(tweet, tweetSelector), getCookie('ct0'))
     }
 
     browser.runtime.sendMessage({
         type: 'video',
         videoSource: url || videoSource,
         tweetId: getTweetId(tweet, tweetSelector),
-        readerableFilename: generateReaderableFilename(tweet, tweetSelector),
+        readableFilename: generateReadableFilename(tweet, tweetSelector),
         tweetSelector: tweetSelector,
-        token: getCookie("ct0")
+        token: getCookie('ct0'),
     })
 }
 
 function downloadImageObject(tweet, tweetSelector, imageTags) {
     // const uploadedImageQuery = /(https:\/\/pbs.twimg.com\/media\/.*)$/g;
-    const formatAttributeQuery = /(format=)(.*)(\&?.*)/g
-    const nameAttributeQuery = /(name=)(.*)(\&?.*)/g
 
     imageTags = imageTags.filter((index, element) => {
-        return $(element).attr('src').includes('https://pbs.twimg.com/media');
-    });
+        return $(element).attr('src').includes('https://pbs.twimg.com/media')
+    })
 
     if (imageTags.length > 3) {
-        var temp = imageTags[1];
-        imageTags[1] = imageTags[2];
-        imageTags[2] = temp;
+        var temp = imageTags[1]
+        imageTags[1] = imageTags[2]
+        imageTags[2] = temp
     }
 
     let accumIndex = 1
     imageTags.each((index, element) => {
-        let src = $(element).attr('src')
-        if (formatAttributeQuery.test(src)) {
-            src = src.replace(formatAttributeQuery, '$1jpg$3')
-        } else if (src.includes('=')) {
-            src = src + '&format=jpg';
-        } else {
-            src = src + '?format=jpg';
-        }
-        if (nameAttributeQuery.test(src)) {
-            src = src.replace(nameAttributeQuery, '$1orig$3')
-        } else if (src.includes('=')) {
-            src = src + '&name=orig';
-        } else {
-            src = src + '?name=orig';
-        }
-        processImageDownload(src, generateReaderableFilename(tweet, tweetSelector, accumIndex))
-        accumIndex++;
-    })
-    imageTags.each((index, element) => {
-        let src = $(element).attr('src')
-        if (formatAttributeQuery.test(src)) {
-            src = src.replace(formatAttributeQuery, '$1png$3')
-        } else if (src.includes('=')) {
-            src = src + '&format=png';
-        } else {
-            src = src + '?format=png';
-        }
-        if (nameAttributeQuery.test(src)) {
-            src = src.replace(nameAttributeQuery, '$1orig$3')
-        } else if (src.includes('=')) {
-            src = src + '&name=orig';
-        } else {
-            src = src + '?name=orig';
-        }
-        processImageDownload(src, generateReaderableFilename(tweet, tweetSelector, accumIndex))
-        accumIndex++;
+        const src = new URL($(element).attr('src'))
+        src.searchParams.set('name', 'orig')
+        src.searchParams.set('format', 'jpg')
+        processImageDownload(src.href, generateReadableFilename(tweet, tweetSelector, accumIndex))
+        src.searchParams.set('format', 'png')
+        processImageDownload(src.href, generateReadableFilename(tweet, tweetSelector, accumIndex))
+        accumIndex++
     })
 }
 
-function generateReaderableFilename(tweet, selector, index) {
+function generateReadableFilename(tweet, selector, index) {
     if (selector === modalCalss) {
         return `${getTweetOwner(tweet, selector)}-${getTweetId(tweet, selector)}-${indexOfImage(selector) + 1}`
     } else if (!!index) {
@@ -276,7 +252,7 @@ function getTweetIndex(statusUrl) {
 
 function getTweetData(tweet, selector, re) {
     if (selector === '.tweet') {
-        return tweet.data("tweet-id")
+        return tweet.data('tweet-id')
     } else if (selector === 'article') {
         for (const element of tweet.find('a').toArray()) {
             const match = re.exec(element.href)
@@ -297,7 +273,7 @@ function processRequest(request) {
 }
 
 function toggleReactProgressPopup(request) {
-    if (!$(".tweet").length) {
+    if (!$('.tweet').length) {
         let spinner = $('.tva-react-spinner-wrapper')
         if (request.hideSpinner) {
             if (spinner.length) {
@@ -310,9 +286,9 @@ function toggleReactProgressPopup(request) {
         }
     } else {
         if (request.hideSpinner) {
-            $(".tva_ext_container").addClass("tva_hide")
+            $('.tva_ext_container').addClass('tva_hide')
         } else {
-            $(".tva_ext_container").removeClass("tva_hide")
+            $('.tva_ext_container').removeClass('tva_hide')
         }
     }
 }
@@ -325,13 +301,11 @@ function getMaximumZindex() {
     let maxZ = 0
     $('div').each((element, index) => {
         try {
-            var indexCurrent = intOrNaN($(element).css("z-index"))
+            var indexCurrent = intOrNaN($(element).css('z-index'))
             if (indexCurrent > maxZ) {
                 maxZ = indexCurrent
             }
-        } catch {
-
-        }
+        } catch {}
     })
     return maxZ
 }
