@@ -24,7 +24,7 @@
   "content_scripts": [{
     "matches": ["*://twitter.com/*", "*://mobile.twitter.com/*"],
     "css": ["twitter_video_assist_client.css"],
-    "js": ["browser-polyfill.min.js", "jquery-3.3.1.min.js", "twitter_video_downloader.js", "twitter_video_assist_client.js"]
+    "js": ["browser-polyfill.min.js", "jquery-3.7.0.min.js", "twitter_video_downloader.js", "twitter_video_assist_client.js"]
   }],
 
   "options_ui": {
